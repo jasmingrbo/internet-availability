@@ -50,7 +50,7 @@ repositories {
 }
 
 dependencies {
-  implementation "io.github.jasmingrbo:internet-availability:1.0.0"
+  implementation "io.github.jasmingrbo:internet-availability:1.0.1"
 }
 ```
 

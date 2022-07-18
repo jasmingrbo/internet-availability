@@ -76,6 +76,8 @@ class Internet private constructor(
     internal val meteredNetworksPingIntervalMillis: Long,
     context: Context
 ) {
+    private var lastNetworksChangePingAtMillis: Long = 0
+
     private val pinger = Pinger(
         url = pingUrl,
         timeoutMillis = pingTimeoutMillis,
@@ -143,7 +145,12 @@ class Internet private constructor(
 
                     Logger.d("Collected: $networks")
                     stopPinging()
+                    val difference = System.currentTimeMillis() - lastNetworksChangePingAtMillis
+                    if (difference < MIN_NETWORKS_CHANGE_PING_INTERVAL_MILLIS) {
+                        delay(MIN_NETWORKS_CHANGE_PING_INTERVAL_MILLIS - difference)
+                    }
                     emit(networks)
+                    lastNetworksChangePingAtMillis = System.currentTimeMillis()
                     startPinging()
                 }
             }
@@ -252,17 +259,19 @@ class Internet private constructor(
          * @param pingUrl A URL that's going to be pinged in intervals of
          * [nonMeteredNetworksPingIntervalMillis] and [meteredNetworksPingIntervalMillis].
          * @param pingTimeoutMillis Time in milliseconds after which the ongoing ping to the
-         * [pingUrl] will fail.
+         * [pingUrl] will fail. Coerced to at least 1000ms.
          * @param pingRetryTimes Times to retry current network pinging before reporting the failure.
-         * @param pingRetryIntervalMillis Delay between each network pinging retry.
+         * If > 0 coerced to at most 5 times else coerced to at least 0 times.
+         * @param pingRetryIntervalMillis Delay between each network pinging retry. If
+         * [pingRetryTimes] > 0 coerced to at least 1000ms.
          * @param pingOnNonMeteredNetworks Whether pinging should be done on non-metered networks or not
-         * @param nonMeteredNetworksPingIntervalMillis Pinging interval for non-metered all networks.
+         * @param nonMeteredNetworksPingIntervalMillis Pinging interval for non-metered networks.
          * Meaning all non-metered networks will be pinged in parallel after this interval has passed
-         * counting from the last time these networks were pinged.
+         * counting from the last time these networks were pinged. Coerced to at least 1000ms.
          * @param pingOnMeteredNetworks Whether the pinging should be done on metered networks or not.
-         * @param meteredNetworksPingIntervalMillis Pinging interval for metered all networks. All
+         * @param meteredNetworksPingIntervalMillis Pinging interval for metered networks. All
          * metered networks will be pinged in parallel after this interval has passed counting from the
-         * last time these networks were pinged.
+         * last time these networks were pinged. Coerced to at least 1000ms.
          * @param context [Application] context.
          *
          * @throws [IllegalArgumentException] if [pingUrl] isn't a valid HTTP or HTTPS URL or if
@@ -285,13 +294,25 @@ class Internet private constructor(
             instance ?: Internet(
                 scope = scope,
                 pingUrl = pingUrl,
-                pingTimeoutMillis = pingTimeoutMillis,
-                pingRetryTimes = pingRetryTimes,
-                pingRetryIntervalMillis = pingRetryIntervalMillis,
+                pingTimeoutMillis = pingTimeoutMillis.coerceAtLeast(MIN_PING_TIMEOUT_MILLIS),
+                pingRetryTimes = if (pingRetryTimes > 0) {
+                    pingRetryTimes.coerceAtMost(MAX_PING_RETRY_TIMES)
+                } else {
+                    0
+                },
+                pingRetryIntervalMillis = if (pingRetryTimes > 0) {
+                    pingRetryIntervalMillis.coerceAtLeast(MIN_PING_RETRY_INTERVAL_MILLIS)
+                } else {
+                    0
+                },
                 pingOnNonMeteredNetworks = pingOnNonMeteredNetworks,
-                nonMeteredNetworksPingIntervalMillis = nonMeteredNetworksPingIntervalMillis,
+                nonMeteredNetworksPingIntervalMillis = nonMeteredNetworksPingIntervalMillis.coerceAtLeast(
+                    MIN_PING_INTERVAL_MILLIS
+                ),
                 pingOnMeteredNetworks = pingOnMeteredNetworks,
-                meteredNetworksPingIntervalMillis = meteredNetworksPingIntervalMillis,
+                meteredNetworksPingIntervalMillis = meteredNetworksPingIntervalMillis.coerceAtLeast(
+                    MIN_PING_INTERVAL_MILLIS
+                ),
                 context = context
             ).also { internet -> instance = internet }
         }
@@ -310,5 +331,15 @@ class Internet private constructor(
          * network.
          */
         internal const val TEST_PROXY = "127.0.0.1:8080"
+
+        private const val MIN_PING_TIMEOUT_MILLIS = 1_000
+
+        private const val MAX_PING_RETRY_TIMES = 5
+
+        private const val MIN_PING_RETRY_INTERVAL_MILLIS: Long = 1_000
+
+        private const val MIN_PING_INTERVAL_MILLIS: Long = 1_000
+
+        private const val MIN_NETWORKS_CHANGE_PING_INTERVAL_MILLIS: Long = 500
     }
 }
