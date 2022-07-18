@@ -44,7 +44,15 @@ manner.
 
 Download
 --------
-    TBU once it gets published to Maven Central.
+```groovy
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation "io.github.jasmingrbo:internet-availability:1.0.0"
+}
+```
 
 License
 -------
