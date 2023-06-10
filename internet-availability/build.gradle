@@ -17,17 +17,20 @@ android {
 
     buildTypes {
         release {
-            debuggable false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
+
     compileOptions {
         sourceCompatibility conf.javaCompileCompatibility
         targetCompatibility conf.javaCompileCompatibility
     }
+
     kotlinOptions {
         jvmTarget = conf.jvmTarget
     }
+
+    namespace "io.github.jasmingrbo.internetavailability"
 }
 
 dependencies {
