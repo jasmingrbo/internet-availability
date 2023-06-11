@@ -32,19 +32,29 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.jasmingrbo.sample.R
+import kotlinx.coroutines.delay
 
 @Composable
-internal fun AnimatedInternetAvailabilityBanner(hasInternet: Boolean) {
+internal fun AnimatedInternetAvailabilityBanner(
+    modifier: Modifier = Modifier,
+    hasInternet: Boolean
+) {
     AnimatedVisibility(
+        modifier = modifier,
         visible = !hasInternet,
         enter = expandVertically(animationSpec = tween(easing = LinearOutSlowInEasing)),
         exit = shrinkVertically(
@@ -72,20 +82,18 @@ internal fun InternetAvailabilityBanner(
         else MaterialTheme.colors.error
     }
     Surface(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         shape = RectangleShape,
         color = surfaceColor,
     ) {
         transition.AnimatedContent { internet ->
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 1.dp, bottom = 1.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    modifier = Modifier.size(14.dp),
+                    modifier = Modifier.size(24.dp),
                     painter = painterResource(
                         if (internet) R.drawable.ic_wifi_on else R.drawable.ic_wifi_off
                     ),
@@ -101,4 +109,27 @@ internal fun InternetAvailabilityBanner(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewInternetAvailabilityBanner() {
+    InternetAvailabilityBanner(hasInternet = true)
+}
+
+@Preview
+@Composable
+fun PreviewInternetAvailabilityBannerNoInternet() {
+    InternetAvailabilityBanner(hasInternet = false)
+}
+
+@Preview
+@Composable
+fun PreviewAnimatedInternetAvailabilityBannerNoInternet() {
+    var hasInternet by remember { mutableStateOf(false) }
+    LaunchedEffect(key1 = hasInternet) {
+        delay(1_000)
+        hasInternet = !hasInternet
+    }
+    AnimatedInternetAvailabilityBanner(hasInternet = hasInternet)
 }
