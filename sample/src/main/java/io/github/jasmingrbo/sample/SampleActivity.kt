@@ -35,8 +35,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import io.github.jasmingrbo.sample.composables.AnimatedInternetAvailabilityBanner
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.jasmingrbo.sample.composables.SampleScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
@@ -57,8 +57,14 @@ internal class SampleActivity : ComponentActivity() {
                         // the UI is in the background.
                         // val hasInternet by viewModel.internetAvailability.collectAsState()
 
-                        val hasInternet by viewModel.internetAvailability.collectAsStateWhenStarted()
-                        AnimatedInternetAvailabilityBanner(hasInternet = hasInternet)
+                        with(viewModel) {
+                            val hasInternet by internetAvailability.collectAsStateWhenStarted()
+                            SampleScreen(
+                                hasInternet = hasInternet,
+                                text = textFieldValue,
+                                onTextChange = ::onTextFieldValueChange
+                            )
+                        }
                     }
                 }
             }

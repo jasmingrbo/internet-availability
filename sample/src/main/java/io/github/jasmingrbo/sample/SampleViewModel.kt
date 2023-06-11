@@ -16,6 +16,9 @@
 
 package io.github.jasmingrbo.sample
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import io.github.jasmingrbo.sample.di.InternetAvailability
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,4 +28,11 @@ import javax.inject.Inject
 @HiltViewModel
 internal class SampleViewModel @Inject constructor(
     @InternetAvailability val internetAvailability: StateFlow<Boolean>
-) : ViewModel()
+) : ViewModel() {
+    var textFieldValue by mutableStateOf("")
+        private set
+
+    fun onTextFieldValueChange(value: String) {
+        textFieldValue = value
+    }
+}
