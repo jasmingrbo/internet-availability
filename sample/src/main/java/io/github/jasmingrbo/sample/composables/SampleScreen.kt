@@ -3,6 +3,8 @@ package io.github.jasmingrbo.sample.composables
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -22,14 +24,18 @@ fun SampleScreen(
     text: String,
     onTextChange: (String) -> Unit
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
-        AnimatedInternetAvailabilityBanner(hasInternet = hasInternet)
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = text,
-            onValueChange = onTextChange,
-            placeholder = { Text(text = "Anything...") }
-        )
+    MaterialTheme {
+        Surface {
+            Column(modifier = modifier.fillMaxSize()) {
+                AnimatedInternetAvailabilityBanner(hasInternet = hasInternet)
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = text,
+                    onValueChange = onTextChange,
+                    placeholder = { Text(text = "Anything...") }
+                )
+            }
+        }
     }
 }
 

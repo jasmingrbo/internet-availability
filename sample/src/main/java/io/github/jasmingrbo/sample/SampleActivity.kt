@@ -21,15 +21,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -49,24 +44,18 @@ internal class SampleActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val viewModel: SampleViewModel by viewModels()
-            MaterialTheme {
-                Surface {
-                    Column(modifier = Modifier.fillMaxSize()) {
-                        // Doesn't work as it just suspends and not cancels, causing the upstream
-                        // not to drop the collector, hence continuing to produce values even when
-                        // the UI is in the background.
-                        // val hasInternet by viewModel.internetAvailability.collectAsState()
+            with(viewModel) {
+                // Doesn't work as it just suspends and not cancels, causing the upstream
+                // not to drop the collector, hence continuing to produce values even when
+                // the UI is in the background.
+                // val hasInternet by viewModel.internetAvailability.collectAsState()
 
-                        with(viewModel) {
-                            val hasInternet by internetAvailability.collectAsStateWhenStarted()
-                            SampleScreen(
-                                hasInternet = hasInternet,
-                                text = textFieldValue,
-                                onTextChange = ::onTextFieldValueChange
-                            )
-                        }
-                    }
-                }
+                val hasInternet by internetAvailability.collectAsStateWhenStarted()
+                SampleScreen(
+                    hasInternet = hasInternet,
+                    text = textFieldValue,
+                    onTextChange = ::onTextFieldValueChange
+                )
             }
         }
     }

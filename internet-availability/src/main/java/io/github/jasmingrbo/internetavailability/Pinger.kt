@@ -30,7 +30,6 @@ import java.net.MalformedURLException
 import java.net.Proxy
 import java.net.Socket
 import java.net.URL
-import java.net.UnknownHostException
 import kotlin.coroutines.coroutineContext
 
 internal class Pinger(
@@ -75,7 +74,7 @@ internal class Pinger(
             }
         } catch (e: Exception) {
             Logger.e(e)
-            if (e is UnknownHostException) throw IllegalArgumentException(e.message) else false
+            false
         }.also { connected ->
             Logger.d("Pinged ${if (connected) "successfully" else "unsuccessfully"}")
         }
@@ -117,6 +116,6 @@ internal class Pinger(
         true
     } catch (e: Exception) {
         Logger.e(e)
-        if (e is UnknownHostException) throw e else false
+        false
     }
 }
