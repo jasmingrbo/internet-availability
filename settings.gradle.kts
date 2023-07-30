@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "internet-availability"
-include ':internet-availability'
-include ':sample'
+include(":internet-availability")
+include(":sample")

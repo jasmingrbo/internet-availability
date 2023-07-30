@@ -1,0 +1,45 @@
+[versions]
+androidxComposeBom = "2023.06.01"
+androidxComposeCompiler = "1.5.1"
+androidxCoreKtx = "1.10.1"
+androidxActivityCompose = "1.7.2"
+androidxLifecylceRuntimeKtx = "2.6.1"
+androidxJunit = "1.1.5"
+androidxTestRunner = "1.5.2"
+googleHilt = "2.47"
+androidGradlePlugin = "8.1.0"
+jetbrainsCoroutines = "1.7.3"
+jetbrainsKoltin = "1.9.0"
+jakeWhartonTimber = "5.0.1"
+vanniktechMavenPublish = "0.21.0"
+minSdk = "21"
+targetSdk = "33"
+compileSdk = "33"
+testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+jvmTarget = "VERSION_17"
+packingResourcesExcludes = "/META-INF/{AL2.0,LGPL2.1}"
+
+[libraries]
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCoreKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecylceRuntimeKtx" }
+androidx-test-junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
+google-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "googleHilt" }
+google-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "googleHilt" }
+jetbrains-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "jetbrainsCoroutines" }
+jake-wharton-timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "jakeWhartonTimber" }
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+google-hilt = { id = "com.google.dagger.hilt.android", version.ref = "googleHilt" }
+jetbrains-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrainsKoltin" }
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktechMavenPublish" }
