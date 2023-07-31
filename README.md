@@ -33,12 +33,6 @@ manner.
         context: Context // Application Context
     )
 
-    // For Jetpack Compose
-    val hasInternet by internet.availability.collectAsStateWhenStarted() // Check the sample app
-
-    // Alternatively for Jetpack Compose and for Android Views
-    internet.availability.collectWhenStarted(scope, onEach) // Check the sample app
-
 
 **Check out the `sample` app to see it in action.**
 
