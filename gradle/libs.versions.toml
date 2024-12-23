@@ -1,20 +1,19 @@
 [versions]
-androidxComposeBom = "2023.06.01"
-androidxComposeCompiler = "1.5.1"
-androidxCoreKtx = "1.10.1"
-androidxActivityCompose = "1.7.2"
-androidxLifecylceRuntimeKtx = "2.6.1"
-androidxJunit = "1.1.5"
-androidxTestRunner = "1.5.2"
-googleHilt = "2.47"
-androidGradlePlugin = "8.1.0"
-jetbrainsCoroutines = "1.7.3"
-jetbrainsKoltin = "1.9.0"
+androidxComposeBom = "2024.12.01"
+androidxCoreKtx = "1.15.0"
+androidxActivityCompose = "1.9.3"
+androidxLifecylceRuntimeKtx = "2.8.7"
+androidxJunit = "1.2.1"
+androidxTestRunner = "1.6.2"
+googleHilt = "2.52"
+androidGradlePlugin = "8.7.3"
+jetbrainsCoroutines = "1.8.0"
+jetbrainsKoltin = "2.1.0"
 jakeWhartonTimber = "5.0.1"
 vanniktechMavenPublish = "0.21.0"
 minSdk = "21"
-targetSdk = "33"
-compileSdk = "33"
+targetSdk = "35"
+compileSdk = "35"
 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 jvmTarget = "VERSION_17"
 packingResourcesExcludes = "/META-INF/{AL2.0,LGPL2.1}"
@@ -44,3 +43,4 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 google-hilt = { id = "com.google.dagger.hilt.android", version.ref = "googleHilt" }
 jetbrains-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrainsKoltin" }
 vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktechMavenPublish" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "jetbrainsKoltin" }

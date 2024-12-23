@@ -29,6 +29,10 @@ android {
         jvmTarget = JavaVersion.valueOf(libs.versions.jvmTarget.get()).toString()
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     namespace = "io.github.jasmingrbo.internetavailability"
 }
 

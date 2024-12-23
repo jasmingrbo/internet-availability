@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin)
+    alias(libs.plugins.compose.compiler)
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.kapt")
 }
@@ -34,10 +35,6 @@ android {
 
     buildFeatures {
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
 
     packaging {
